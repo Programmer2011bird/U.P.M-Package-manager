@@ -6,10 +6,11 @@ import sys
 class pip_handler:
     def __init__(self, packageName: str) -> None:
         self.URL: str = f"https://pypi.org/pypi/{packageName}/json"
-        self.proper_downloadUrl: str = self.get_proper_downloadUrl()
+        self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
         print(self.proper_downloadUrl)
+        self.__download(self.proper_downloadUrl)
         
-    def get_proper_downloadUrl(self) -> str:
+    def __get_proper_downloadUrl(self) -> str:
         self.RESPONSE: requests.Response = requests.get(self.URL)
         self.RESPONSE_JSON: dict = dict(self.RESPONSE.json())
        
@@ -24,9 +25,9 @@ class pip_handler:
         self.currentOs = platform.system().lower().replace("windows", "win")
         self.currentPYversion = f"cp{sys.version_info.major}{sys.version_info.minor}"
         
-        return self.check_compatibility(self.currentOs, self.currentPYversion)
+        return self.__check_compatibility(self.currentOs, self.currentPYversion)
 
-    def check_compatibility(self, currentOs: str, currentPYversion: str) -> str:
+    def __check_compatibility(self, currentOs: str, currentPYversion: str) -> str:
         CompatibleDownloadUrl: str = ""
 
         for _, info in enumerate(self.desiredInfo):
@@ -38,10 +39,19 @@ class pip_handler:
         
         return CompatibleDownloadUrl
 
+    def __download(self, downloadUrl: str) -> None:
+        RESPONSE: requests.Response = requests.get(downloadUrl)
+        RESPONSE_CONTENT: bytes = RESPONSE.content
+        fileName: str = str(downloadUrl.split("/")[-1])
+        
+        with open(fileName, "wb") as file:
+            file.write(RESPONSE_CONTENT)
+
+        print("Downloaded !")
 
 if __name__ == "__main__":
     try:
-        PIP: pip_handler = pip_handler("torch")
+        PIP: pip_handler = pip_handler("requests")
 
     except KeyError:
         print("OOPS, looks like there is no package found ! ")
