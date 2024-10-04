@@ -4,11 +4,10 @@ import sys
 
 
 class pip_handler:
-    def __init__(self, packageName: str) -> None:
+    def __init__(self, packageName: str, path: str) -> None:
         self.URL: str = f"https://pypi.org/pypi/{packageName}/json"
         self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
-        print(self.proper_downloadUrl)
-        self.__download(self.proper_downloadUrl)
+        self.__download(self.proper_downloadUrl, path)
         
     def __get_proper_downloadUrl(self) -> str:
         self.RESPONSE: requests.Response = requests.get(self.URL)
@@ -39,19 +38,19 @@ class pip_handler:
         
         return CompatibleDownloadUrl
 
-    def __download(self, downloadUrl: str) -> None:
+    def __download(self, downloadUrl: str, path: str) -> None:
         RESPONSE: requests.Response = requests.get(downloadUrl)
         RESPONSE_CONTENT: bytes = RESPONSE.content
         fileName: str = str(downloadUrl.split("/")[-1])
         
-        with open(fileName, "wb") as file:
+        with open(f"{path}/{fileName}", "wb") as file:
             file.write(RESPONSE_CONTENT)
 
         print("Downloaded !")
 
 if __name__ == "__main__":
     try:
-        PIP: pip_handler = pip_handler("requests")
+        PIP: pip_handler = pip_handler("requests", "Test_Files")
 
     except KeyError:
         print("OOPS, looks like there is no package found ! ")

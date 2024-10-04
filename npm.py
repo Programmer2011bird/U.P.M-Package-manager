@@ -2,11 +2,11 @@ import requests
 
 
 class npm_handeler:
-    def __init__(self, packageName: str) -> None:
+    def __init__(self, packageName: str, path: str) -> None:
         self.URL: str = f"https://registry.npmjs.org/{packageName}"
         self.TARBALL_URL: str = self.__get_download_link()
 
-        self.__download(self.TARBALL_URL)
+        self.__download(self.TARBALL_URL, path)
 
     def __get_download_link(self) -> str:
         RESPONSE: requests.Response = requests.get(self.URL)
@@ -19,13 +19,13 @@ class npm_handeler:
 
         return TARBALL_URL
 
-    def __download(self, downloadUrl: str) -> None:
+    def __download(self, downloadUrl: str, path: str) -> None:
         RESPONSE: requests.Response = requests.get(downloadUrl)
         RESPONSE_CONTENT: bytes = RESPONSE.content
         
         FILE_NAME: str = downloadUrl.split("/")[-1]
 
-        with open(FILE_NAME, "wb") as file:
+        with open(f"{path}/{FILE_NAME}", "wb") as file:
             file.write(RESPONSE_CONTENT)
 
         print("downloaded !")
@@ -33,7 +33,7 @@ class npm_handeler:
 
 if __name__ == "__main__":
     try:
-        PIP: npm_handeler = npm_handeler("express")
+        PIP: npm_handeler = npm_handeler("express", "Test_Files")
 
     except KeyError:
         print("OOPS, looks like there is no package found ! ")
