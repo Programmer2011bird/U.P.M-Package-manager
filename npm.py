@@ -4,9 +4,16 @@ import requests
 class npm_handeler:
     def __init__(self, packageName: str, path: str) -> None:
         self.URL: str = f"https://registry.npmjs.org/{packageName}"
-        self.TARBALL_URL: str = self.__get_download_link()
-
-        self.__download(self.TARBALL_URL, path)
+        
+        RESPONSE: requests.Response = requests.get(self.URL)
+        RESPONSE_JSON: dict = dict(RESPONSE.json())
+        
+        if "error" in RESPONSE_JSON.keys() and RESPONSE_JSON["error"] == "Not found":
+            print("OOPS, looks like there is no package found ! ")
+        
+        else:
+            self.TARBALL_URL: str = self.__get_download_link()
+            self.__download(self.TARBALL_URL, path)
 
     def __get_download_link(self) -> str:
         RESPONSE: requests.Response = requests.get(self.URL)
@@ -32,9 +39,5 @@ class npm_handeler:
 
 
 if __name__ == "__main__":
-    try:
-        PIP: npm_handeler = npm_handeler("express", "Test_Files")
-
-    except KeyError:
-        print("OOPS, looks like there is no package found ! ")
+    PIP: npm_handeler = npm_handeler("yippie1", "Test_Files")
 

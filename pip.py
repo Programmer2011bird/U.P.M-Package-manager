@@ -6,13 +6,18 @@ import sys
 class pip_handler:
     def __init__(self, packageName: str, path: str) -> None:
         self.URL: str = f"https://pypi.org/pypi/{packageName}/json"
-        self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
-        self.__download(self.proper_downloadUrl, path)
         
-    def __get_proper_downloadUrl(self) -> str:
         self.RESPONSE: requests.Response = requests.get(self.URL)
         self.RESPONSE_JSON: dict = dict(self.RESPONSE.json())
        
+        if "message" in self.RESPONSE_JSON.keys() and self.RESPONSE_JSON["message"] == "Not Found":
+            print("OOPS, looks like there is no package found ! ")
+        
+        else:
+            self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
+            self.__download(self.proper_downloadUrl, path)
+        
+    def __get_proper_downloadUrl(self) -> str:
         self.LATEST_VERSION: str = str(self.RESPONSE_JSON["info"]["version"])
         self.release: list = list(self.RESPONSE_JSON["releases"][self.LATEST_VERSION])
         self.desiredInfo: list[dict[str, str]] = []
@@ -49,9 +54,5 @@ class pip_handler:
         print("Downloaded !")
 
 if __name__ == "__main__":
-    try:
-        PIP: pip_handler = pip_handler("requests", "Test_Files")
-
-    except KeyError:
-        print("OOPS, looks like there is no package found ! ")
+    PIP: pip_handler = pip_handler("yippie", "Test_Files")
 
