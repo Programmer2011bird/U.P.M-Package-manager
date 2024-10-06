@@ -52,7 +52,3 @@ class pip_handler:
             file.write(RESPONSE_CONTENT)
 
         print("Downloaded !")
-
-if __name__ == "__main__":
-    PIP: pip_handler = pip_handler("yippie", "Test_Files")
-

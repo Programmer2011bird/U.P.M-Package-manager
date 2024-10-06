@@ -36,8 +36,3 @@ class npm_handeler:
             file.write(RESPONSE_CONTENT)
 
         print("downloaded !")
-
-
-if __name__ == "__main__":
-    PIP: npm_handeler = npm_handeler("yippie1", "Test_Files")
-
