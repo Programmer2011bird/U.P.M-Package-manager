@@ -25,3 +25,5 @@ over the deployment process, and and, as mentioned above saving and prioritizing
 ### License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+> [!NOTE]
+> it was a fun project either way but i wouldn't continue it 
