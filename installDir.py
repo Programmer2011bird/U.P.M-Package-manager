@@ -25,5 +25,5 @@ def install_Node_InstallDir(packageName: str) -> None:
 
 
 if __name__ == "__main__":
-    # install_PIP_InstallDir("tqdm")
+    install_PIP_InstallDir("tqdm")
     install_Node_InstallDir("express")
