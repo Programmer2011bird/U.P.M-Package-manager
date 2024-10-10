@@ -19,7 +19,7 @@ class pip_handler:
             self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
             self.wheel_path: str = self.__download(self.proper_downloadUrl, path)
 
-            decompressor.extractWheel(path, str(Path(self.wheel_path).parent))
+            decompressor.extractWheel(str(Path(self.wheel_path)), path)
         
     def __get_proper_downloadUrl(self) -> str:
         self.LATEST_VERSION: str = str(self.RESPONSE_JSON["info"]["version"])
