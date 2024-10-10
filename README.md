@@ -18,9 +18,22 @@ up the package delivery process and prioritizing and saving space on the disk
 Once a package is installed, you can choose when to extract or initialize the contents, giving you more control 
 over the deployment process, and and, as mentioned above saving and prioritizing space on the disk
 
+### how to use
+
+- **To install a package**
+- * ` UPM --py --install <package-name> `
+- * ` UPM --js --install <package-name> `
+
+- **To decompress a package**
+- * ` UPM --py --decompress <package-name> `
+- * ` UPM --js --decompress <package-name> `
+
 ### Supported Languages ( so far )
 * JavaScript
 * Python
 
 ### License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+> [!NOTE]
+> There is no automatic adding to PATH support yet
