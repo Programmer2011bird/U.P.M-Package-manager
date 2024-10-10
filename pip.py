@@ -1,5 +1,3 @@
-from pathlib import Path
-import decompressor
 import platform
 import requests
 import sys
@@ -17,10 +15,8 @@ class pip_handler:
         
         else:
             self.proper_downloadUrl: str = self.__get_proper_downloadUrl()
-            self.wheel_path: str = self.__download(self.proper_downloadUrl, path)
+            self.__download(self.proper_downloadUrl, path)
 
-            decompressor.extractWheel(str(Path(self.wheel_path)), path)
-        
     def __get_proper_downloadUrl(self) -> str:
         self.LATEST_VERSION: str = str(self.RESPONSE_JSON["info"]["version"])
         self.release: list = list(self.RESPONSE_JSON["releases"][self.LATEST_VERSION])
@@ -47,7 +43,7 @@ class pip_handler:
         
         return CompatibleDownloadUrl
 
-    def __download(self, downloadUrl: str, path: str) -> str:
+    def __download(self, downloadUrl: str, path: str) -> None:
         RESPONSE: requests.Response = requests.get(downloadUrl)
         RESPONSE_CONTENT: bytes = RESPONSE.content
         fileName: str = str(downloadUrl.split("/")[-1])
@@ -56,5 +52,3 @@ class pip_handler:
             file.write(RESPONSE_CONTENT)
 
         print("Downloaded !")
-
-        return f"{path}/{fileName}"

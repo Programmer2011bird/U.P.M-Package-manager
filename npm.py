@@ -1,7 +1,3 @@
-# from os import mkdir
-from os import mkdir
-from pathlib import Path
-import decompressor
 import requests
 
 
@@ -17,12 +13,7 @@ class npm_handeler:
         
         else:
             self.TARBALL_URL: str = self.__get_download_link()
-            print(self.TARBALL_URL)
-            self.tarball_path: str = self.__download(self.TARBALL_URL, path)
-            print(self.tarball_path)
-
-            print(str(Path(self.tarball_path)), path)
-            decompressor.extractTarball(str(Path(self.tarball_path)), path)
+            self.__download(self.TARBALL_URL, path)
 
     def __get_download_link(self) -> str:
         RESPONSE: requests.Response = requests.get(self.URL)
@@ -35,7 +26,7 @@ class npm_handeler:
         
         return TARBALL_URL
 
-    def __download(self, downloadUrl: str, path: str) -> str:
+    def __download(self, downloadUrl: str, path: str) -> None:
         RESPONSE: requests.Response = requests.get(downloadUrl)
         RESPONSE_CONTENT: bytes = RESPONSE.content
         
@@ -45,5 +36,3 @@ class npm_handeler:
             file.write(RESPONSE_CONTENT)
 
         print("downloaded !")
-
-        return f"{path}/{FILE_NAME}"
