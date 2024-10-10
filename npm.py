@@ -1,3 +1,4 @@
+from os import makedirs 
 import requests
 
 
@@ -30,9 +31,11 @@ class npm_handeler:
         RESPONSE: requests.Response = requests.get(downloadUrl)
         RESPONSE_CONTENT: bytes = RESPONSE.content
         
-        FILE_NAME: str = downloadUrl.split("/")[-1]
+        makedirs(path, exist_ok=True)
 
-        with open(f"{path}/{FILE_NAME}", "wb") as file:
+        FILE_NAME: str = str(downloadUrl.split("/")[-1])
+        
+        with open(f"{path}//{FILE_NAME}", "wb+") as file:
             file.write(RESPONSE_CONTENT)
 
         print("downloaded !")
