@@ -11,7 +11,7 @@ def __get_Python_InstallDir() -> str:
     return site_packages
 
 def __get_Node_InstallDir() -> str:
-    node_modules = os.path.join(os.getcwd(), "node_modules")
+    node_modules: str = os.path.join(os.getcwd(), "node_modules")
     return node_modules
 
 def install_PIP(packageName: str) -> None:
@@ -24,8 +24,8 @@ def install_NPM(packageName: str) -> None:
 
 def decompress_PIP_packages(packageName: str) -> None:
     Python_Installdir: Path = Path(__get_Python_InstallDir())
-    files = list(Python_Installdir.walk())[0][2]
-    parent_dir = list(Python_Installdir.walk())[0][0]
+    files: list[str] = list(Python_Installdir.walk())[0][2]
+    parent_dir: Path = list(Python_Installdir.walk())[0][0]
     
     for _, file in enumerate(files):
         if packageName in str(file) and ".whl" in str(file):
@@ -36,8 +36,8 @@ def decompress_PIP_packages(packageName: str) -> None:
 
 def decompress_NPM_packages(packageName: str) -> None:
     NPM_instalDir: Path = Path(__get_Node_InstallDir())
-    files = list(NPM_instalDir.walk())[0][2]
-    parent_dir = list(NPM_instalDir.walk())[0][0]
+    files: list[str] = list(NPM_instalDir.walk())[0][2]
+    parent_dir: Path = list(NPM_instalDir.walk())[0][0]
     
     for _, file in enumerate(files):
         if packageName in str(file) and ".tgz" in str(file):

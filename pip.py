@@ -26,8 +26,8 @@ class pip_handler:
             if release_info["packagetype"] == "bdist_wheel":
                 self.desiredInfo.append({"pythonVersion":release_info["python_version"], "fileName":release_info["filename"], "downloadUrl":release_info["url"]})
         
-        self.currentOs = platform.system().lower().replace("windows", "win")
-        self.currentPYversion = f"cp{sys.version_info.major}{sys.version_info.minor}"
+        self.currentOs: str = platform.system().lower().replace("windows", "win")
+        self.currentPYversion: str = f"cp{sys.version_info.major}{sys.version_info.minor}"
         
         return self.__check_compatibility(self.currentOs, self.currentPYversion)
 
